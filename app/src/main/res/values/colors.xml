@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Tonalidades de naranja de Material Design -->
+    <color name="colorPrimary">#2D383F</color>
+    <color name="colorAccent">#FF6C02</color>
+
+    <!-- Morados personalizados -->
+    <color name="morado_primario">#673AB7</color>
+    <color name="morado_secundario">#9575CD</color>
+    <color name="morado_terciario">#D1C4E9</color>
+
+    <!-- Tonalidades de morado de Material Design -->
+    <color name="colorPrimaryM">@color/morado_primario</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorAccentM">#FF4081</color>
+
+    <!-- Otras tonalidades de morado -->
+    <color name="morado_pálido">#E1BEE7</color>
+    <color name="morado_oscuro">#512DA8</color>
+    <color name="morado_suave">#D1C4E9</color>
+
+</resources>

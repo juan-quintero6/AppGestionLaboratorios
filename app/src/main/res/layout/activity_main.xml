@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_marginTop="40dp"
+        android:text="SOLICITUD DE LABORATORIO" />
+
+
+    <TextView
+        android:id="@+id/text_campo"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_margin="20dp"
+        android:layout_marginRight="60dp"
+        android:text="SELECCIONAR LABORATORIO" />
+
+
+    <Spinner
+        android:id="@+id/salas"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:entries="@array/salas_lab" />
+
+    <TextView
+        android:id="@+id/text_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_margin="20dp"
+        android:layout_marginRight="60dp"
+        android:text="SELECCIONAR HORA DE RESERVA" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp" />
+
+    <Button
+        android:id="@+id/seleccionar_siguiente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

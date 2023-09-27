@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">App</string>
+    <string-array name="roles">
+        <item>Estudiante</item>
+        <item>Administrador Laboratorios</item>
+    </string-array>
+
+    <string-array name="salas_lab">
+        <item>Circuitos y Electronica</item>
+        <item>Radiocomunicaciones</item>
+        <item>Redes y procesadores</item>
+        <item>Telefonia</item>
+        <item>Robotica</item>
+        <item>Fisica Mecanica</item>
+        <item>Fisica Electricidad y Magnetismo</item>
+        <item>Fisica Ondas y TErmodinamica</item>
+        <item>Ciudades Inteligentes</item>
+        <item>AUtomatizacion Industrial</item>
+        <item>Control Digital</item>
+        <item>Calidad  de Aguas</item>
+        <item>Quimica y Analisi Ambiental</item>
+        <item>Hidraulica</item>
+        <item>Pavimentos</item>
+        <item>Suelos</item>
+        <item>Procesos Constructivos</item>
+        <item>Patio de mezclas</item>
+        <item>Resistencia de materiales</item>
+        <item>Topografia</item>
+
+        </string-array>
+
+
+</resources>
