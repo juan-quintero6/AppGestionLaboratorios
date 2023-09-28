@@ -48,8 +48,6 @@
             android:hint="Contraseña" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
     <Spinner
         android:id="@+id/spinnerRoles"
         android:layout_width="match_parent"

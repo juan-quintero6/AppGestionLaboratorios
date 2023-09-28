@@ -47,7 +47,6 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
         etPassword = findViewById(R.id.editTextPasswordL);
         //Button
         btnLogin = findViewById(R.id.btnLogin);
-
     };
 
     @Override
@@ -73,7 +72,7 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onResponse(String response) {
                         if(!response.isEmpty()){
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), DispLabForm.class);
                             startActivity(intent);
                             Toast.makeText(LoginForm.this, "User logged correctly", Toast.LENGTH_SHORT).show();
                         }else{

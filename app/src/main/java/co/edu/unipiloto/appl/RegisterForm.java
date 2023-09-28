@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,16 +25,21 @@ import java.util.Map;
 public class RegisterForm extends AppCompatActivity implements View.OnClickListener {
 
     EditText etName, etUser, etPassword;
+
+    Spinner sTypeUser;
     Button btnRegister;
+
 
     RequestQueue requestQueue;
 
-    private static final String URL1 = "http://192.168.80.34/app_db/save.php";
+    static String ip_server = "192.168.80.34";
+
+    private static final String URL1 = "http://" +ip_server+ "/app_db/save.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_refactor_form);
+        setContentView(R.layout.activity_register_form);
         getSupportActionBar().setTitle("Signup Form");
 
 
@@ -50,6 +56,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
         etName = findViewById(R.id.editTextFullNameR);
         etUser = findViewById(R.id.editTextUsernameR);
         etPassword = findViewById(R.id.editTextPasswordR);
+        sTypeUser = findViewById(R.id.spinnerRoles);
         //Buttons
         btnRegister = findViewById(R.id.btnRegister);
     };
@@ -59,7 +66,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
         return input.matches("^[a-zA-Z0-9]+$");
     }
     private boolean isAlpha(String input) {
-        return input.matches("^[a-zA-Z]+$");
+        return input.matches("^[a-zA-Z ]+$");
     }
     @Override
     public void onClick(View view) {
@@ -67,11 +74,12 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
             String name = etName.getText().toString().trim();
             String user = etUser.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
+            String user_type = String.valueOf(sTypeUser.getSelectedItem());
 
             if (name.isEmpty()) {
-                Toast.makeText(this, "El campo del nombre no puede estar vacío.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
             } else if (!isAlpha(name)) {
-                Toast.makeText(this, "Nombre no válido. Solo se permiten letras.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Nombre no válido. Solo se permiten caracteres.", Toast.LENGTH_SHORT).show();
             } else if (user.isEmpty()) {
                 Toast.makeText(this, "El campo de usuario no puede estar vacío.", Toast.LENGTH_SHORT).show();
             } else if (!isValidInput(user)) {
@@ -81,12 +89,12 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
             } else if (password.length() < 5) {
                 Toast.makeText(this, "La contraseña debe tener al menos " + 5 + " caracteres.", Toast.LENGTH_SHORT).show();
             } else {
-                createUser(name, user, password);
+                createUser(name, user, password, user_type);
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         }
     }
-    private void createUser(String name, String user, String password) {
+    private void createUser(String name, String user, String password, String user_type) {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URL1,
@@ -99,7 +107,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(RegisterForm.this, "User created incorrectly", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -110,6 +118,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
                 params.put("name", name);
                 params.put("user", user);
                 params.put("password", password);
+                params.put("user_type", user_type);
                 return params;
             }
         };
