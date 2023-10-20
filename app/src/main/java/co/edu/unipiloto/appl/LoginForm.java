@@ -23,7 +23,7 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
 
     EditText etUser, etPassword;
     Button btnLogin;
-    private static final String URL1 = "http://192.168.80.34/app_db/validate.php";
+    private static final String URL1 = "http://192.168.80.23/app_db/validate.php";
 
     RequestQueue requestQueue;
     @Override
@@ -56,9 +56,9 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
             String password = etPassword.getText().toString().trim();
 
             if (user.isEmpty()) {
-                Toast.makeText(this, "El campo de usuario se encuentra vacio.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
             } else if (password.isEmpty()) {
-                Toast.makeText(this, "El campo de contraseña se encuentra vacío.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
             } else
                 loginUser(user, password);
             }
@@ -72,7 +72,7 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onResponse(String response) {
                         if(!response.isEmpty()){
-                            Intent intent = new Intent(getApplicationContext(), DispLabForm.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             Toast.makeText(LoginForm.this, "User logged correctly", Toast.LENGTH_SHORT).show();
                         }else{

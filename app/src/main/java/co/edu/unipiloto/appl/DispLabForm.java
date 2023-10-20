@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,19 +29,28 @@ public class DispLabForm extends AppCompatActivity implements View.OnClickListen
     Calendar calendar;
     Button btnDisp;
 
-    private static final String URL1 = "http://192.168.80.34/app_db/disponibilidad.php";
-
+    static String ip_server = "192.168.80.23";
+    private static final String URL1 = "http://" +ip_server+ "/app_db/disponibilidad.php";
     RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_disponibiliad_lab_form);
+        setContentView(R.layout.activity_disp_lab_form);
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();
 
         btnDisp.setOnClickListener(this);
     }
+    private void initUI(){
+        //Componentes de fecha y hora
+        dateTimeTextView = findViewById(R.id.dateTimeTextView);
+        calendar = Calendar.getInstance();
+        //Button
+        btnDisp = findViewById(R.id.btnDisp);
+    };
+
     public void openDatePicker(View view) {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -88,14 +96,6 @@ public class DispLabForm extends AppCompatActivity implements View.OnClickListen
         dateTimeTextView.setText(selectedDateAndTime);
     }
 
-    private void initUI(){
-        //EditText
-        dateTimeTextView = findViewById(R.id.dateTimeTextView);
-        calendar = Calendar.getInstance();
-        //Button
-        btnDisp = findViewById(R.id.btnDisp);
-    };
-
     @Override
     public void onClick(View view) {
         String fecha_hora_reserva = dateTimeTextView.getText().toString().trim();
@@ -122,7 +122,6 @@ public class DispLabForm extends AppCompatActivity implements View.OnClickListen
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 }
         ){

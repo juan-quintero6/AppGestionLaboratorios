@@ -17,5 +17,9 @@
         <item>Ciudades Inteligentes</item>
     </string-array>
 
+    <string name="crear_reserva">Crear reserva</string>
+    <string name="crear_reserva_title"></string>
+    <string name="action_share">Share</string>
+    <drawable name="ic_add_white_24dp"></drawable>
 
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".GenerateReservationForm">
+
+
+        <TextView
+            android:id="@+id/text_campo"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_margin="20dp"
+            android:layout_marginRight="60dp"
+            android:text="ELEGIR LABORATORIO" />
+
+        <Spinner
+            android:id="@+id/salas_laboratorio"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:entries="@array/salas_lab" />
+
+        <!-- Botón para abrir la selección de fecha -->
+        <Button
+            android:id="@+id/selectDateButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Seleccionar Fecha"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded"
+            android:onClick="openDatePicker" />
+
+        <Button
+            android:id="@+id/selectTimeButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Hora"
+            android:layout_below="@id/selectDateButton"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded"
+            android:onClick="openTimePicker" />
+
+        <!-- TextView para mostrar la fecha y la hora seleccionadas -->
+        <TextView
+            android:id="@+id/dateTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha y Hora"
+            android:layout_gravity="center"
+            android:layout_below="@id/selectTimeButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/btnGene"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Generar reserva"
+            android:layout_below="@id/selectDateButton"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded"
+            android:onClick="onClick" />
+
+    </LinearLayout>

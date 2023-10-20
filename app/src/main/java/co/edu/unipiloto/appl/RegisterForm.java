@@ -25,14 +25,12 @@ import java.util.Map;
 public class RegisterForm extends AppCompatActivity implements View.OnClickListener {
 
     EditText etName, etUser, etPassword;
-
     Spinner sTypeUser;
     Button btnRegister;
 
-
     RequestQueue requestQueue;
 
-    static String ip_server = "192.168.80.34";
+    static String ip_server = "192.168.80.23";
 
     private static final String URL1 = "http://" +ip_server+ "/app_db/save.php";
 
@@ -42,15 +40,16 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_register_form);
         getSupportActionBar().setTitle("Signup Form");
 
-
         requestQueue = Volley.newRequestQueue(this);
         initUI();
 
         btnRegister.setOnClickListener(this);
     }
+
     public void btn_login(View view){
         startActivity(new Intent(getApplicationContext(),LoginForm.class));
     }
+
     private void initUI(){
         //EditText
         etName = findViewById(R.id.editTextFullNameR);
@@ -63,7 +62,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
 
     private boolean isValidInput(String input) {
         // Utiliza una expresión regular para verificar si el input contiene solo letras y números
-        return input.matches("^[a-zA-Z0-9]+$");
+        return input.matches("^[a-zA-Z0-9@.+_-]+$");
     }
     private boolean isAlpha(String input) {
         return input.matches("^[a-zA-Z ]+$");
@@ -77,20 +76,22 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
             String user_type = String.valueOf(sTypeUser.getSelectedItem());
 
             if (name.isEmpty()) {
-                Toast.makeText(this, "Campos vacios.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "¡Campos vacios!", Toast.LENGTH_SHORT).show();
             } else if (!isAlpha(name)) {
-                Toast.makeText(this, "Nombre no válido. Solo se permiten caracteres.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Nombre no válido. Digite unicamente caracteres.", Toast.LENGTH_SHORT).show();
             } else if (user.isEmpty()) {
-                Toast.makeText(this, "El campo de usuario no puede estar vacío.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "¡Campos vacios!", Toast.LENGTH_SHORT).show();
             } else if (!isValidInput(user)) {
-                Toast.makeText(this, "Usuario no válido. Solo se permiten letras y números.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Usuario no válido. No puede contener espacios", Toast.LENGTH_SHORT).show();
             } else if (password.isEmpty()) {
-                Toast.makeText(this, "El campo de contraseña no puede estar vacío.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "¡Campos vacios!", Toast.LENGTH_SHORT).show();
             } else if (password.length() < 5) {
                 Toast.makeText(this, "La contraseña debe tener al menos " + 5 + " caracteres.", Toast.LENGTH_SHORT).show();
+            } else if (!isValidInput(password)) {
+                Toast.makeText(this, "Contraseña no válida. No puede contener espacios", Toast.LENGTH_SHORT).show();
             } else {
                 createUser(name, user, password, user_type);
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), GenerateReservationForm.class));
             }
         }
     }
