@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,23 +29,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenerateReservationForm extends AppCompatActivity implements View.OnClickListener  {
+public class CrearReservaForm extends AppCompatActivity implements View.OnClickListener  {
 
     Spinner sLab;
     TextView dateTimeTextView;
     Calendar calendar;
     Button btnGene;
 
-    static String ip_server = "192.168.80.23";
-    private static final String URL1 = "http://" +ip_server+ "/app_db/generate_reservation.php";
-    private static final String URL2 = "http://" + ip_server + "/app_db/get_lab_id.php";
+    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/generate_reservation.php";
 
     RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_generate_form);
+        setContentView(R.layout.activity_crear_r_form);
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();
@@ -99,7 +98,6 @@ public class GenerateReservationForm extends AppCompatActivity implements View.O
 
         timePickerDialog.show();
     }
-
     private void updateDateTimeTextView() {
         String selectedDateAndTime = android.text.format.DateFormat.format("yyyy-MM-dd HH:mm", calendar).toString();
         dateTimeTextView.setText(selectedDateAndTime);
@@ -107,14 +105,15 @@ public class GenerateReservationForm extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View view) {
+        int userId = LoginForm.userId;
         String nombreLaboratorio = String.valueOf(sLab.getSelectedItem());
-        String fecha_hora_reserva = dateTimeTextView.getText().toString().trim();
+        String date_reserva = dateTimeTextView.getText().toString().trim();
 
         // Define una expresión regular para el formato "yyyy-MM-dd HH:mm".
         String regexPattern = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}";
 
         if (view.getId() == R.id.btnGene) {
-            if (fecha_hora_reserva.matches(regexPattern)) {
+            if (date_reserva.matches(regexPattern)) {
                 // Obtén la fecha actual.
                 Calendar calendarHoy = Calendar.getInstance();
                 Date fechaHoy = calendarHoy.getTime();
@@ -123,7 +122,7 @@ public class GenerateReservationForm extends AppCompatActivity implements View.O
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date fechaReserva = null;
                 try {
-                    fechaReserva = sdf.parse(fecha_hora_reserva);
+                    fechaReserva = sdf.parse(date_reserva);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -141,39 +140,43 @@ public class GenerateReservationForm extends AppCompatActivity implements View.O
                     try {
                         minTime = timeFormat.parse("06:00");
                         maxTime = timeFormat.parse("18:00");
-                        Date selectedTime = timeFormat.parse(fecha_hora_reserva.split(" ")[1]);
+                        Date selectedTime = timeFormat.parse(date_reserva.split(" ")[1]);
 
                         if (dayOfWeek != Calendar.SUNDAY && selectedTime.after(minTime) && selectedTime.before(maxTime)) {
-                            obtenerIdLaboratorio(nombreLaboratorio, fecha_hora_reserva);
+                            crearReserva(nombreLaboratorio, LoginForm.userId, date_reserva);
                         } else {
-                            Toast.makeText(GenerateReservationForm.this, "La hora no es válida o es domingo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CrearReservaForm.this, "La hora no es válida o es domingo", Toast.LENGTH_SHORT).show();
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(GenerateReservationForm.this, "La fecha no es válida o es anterior a la fecha de hoy", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearReservaForm.this, "La fecha no es válida o es anterior a la fecha de hoy", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(GenerateReservationForm.this, "Formato de fecha y hora no válido. Debe ser yyyy-MM-dd HH:mm", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CrearReservaForm.this, "Formato de fecha y hora no válido. Debe ser yyyy-MM-dd HH:mm", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void crearReserva(int id_usuario, int id_lab, String fecha_hora_reserva) {
+    private void crearReserva(String name_lab, int id_usuario, String date_reserva) {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URL1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(GenerateReservationForm.this, "Reserva creada correctamente", Toast.LENGTH_SHORT).show();
+                        if (response.contains("Ya existe la reserva")) {
+                            Toast.makeText(CrearReservaForm.this, "Ya existe una reserva para este laboratorio en la misma fecha.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(CrearReservaForm.this, "Reserva creada correctamente", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(GenerateReservationForm.this, "Reserva incorrecta", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CrearReservaForm.this, "Reserva incorrecta", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -181,41 +184,9 @@ public class GenerateReservationForm extends AppCompatActivity implements View.O
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("name_lab", name_lab);
                 params.put("id_usuario", String.valueOf(id_usuario));
-                params.put("id_lab", String.valueOf(id_lab));
-                params.put("fecha_hora_reserva", fecha_hora_reserva);
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
-    private void obtenerIdLaboratorio(String nombreLaboratorio, String fecha_hora_reserva) {
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                URL2,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Analiza la respuesta para obtener el ID del laboratorio.
-                        int id_lab = Integer.parseInt(response);
-
-                        // Luego, puedes llamar a tu método crearReserva con el ID del laboratorio obtenido.
-                        crearReserva(1, id_lab, fecha_hora_reserva);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(GenerateReservationForm.this, "Error al obtener el ID del laboratorio", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ){
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("name_lab", nombreLaboratorio);
-                params.put("fecha_hora_reserva", fecha_hora_reserva);
+                params.put("date_reserva", date_reserva);
                 return params;
             }
         };

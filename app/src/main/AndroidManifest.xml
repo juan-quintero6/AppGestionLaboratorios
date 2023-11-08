@@ -15,6 +15,12 @@
         android:theme="@style/Theme.AppL"
         tools:targetApi="31">
         <activity
+            android:name=".ReservaCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReservaActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -24,7 +30,7 @@
             android:name=".RegisterForm"
             android:exported="false" />
         <activity
-            android:name=".GenerateReservationForm"
+            android:name=".CrearReservaForm"
             android:exported="false" />
         <activity
             android:name=".LoginForm"

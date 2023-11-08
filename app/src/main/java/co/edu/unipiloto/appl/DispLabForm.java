@@ -29,8 +29,7 @@ public class DispLabForm extends AppCompatActivity implements View.OnClickListen
     Calendar calendar;
     Button btnDisp;
 
-    static String ip_server = "192.168.80.23";
-    private static final String URL1 = "http://" +ip_server+ "/app_db/disponibilidad.php";
+    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/disponibilidad.php";
     RequestQueue requestQueue;
 
     @Override

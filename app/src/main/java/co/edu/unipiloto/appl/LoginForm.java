@@ -23,7 +23,9 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
 
     EditText etUser, etPassword;
     Button btnLogin;
-    private static final String URL1 = "http://192.168.80.23/app_db/validate.php";
+
+    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/validate.php";
+    static int userId;
 
     RequestQueue requestQueue;
     @Override
@@ -71,7 +73,8 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(!response.isEmpty()){
+                        if(!response.isEmpty() && !response.equals("Credenciales incorrectas")){
+                            userId = Integer.parseInt(response);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             Toast.makeText(LoginForm.this, "User logged correctly", Toast.LENGTH_SHORT).show();
@@ -83,7 +86,7 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(LoginForm.this, "Error en la solicitud al servidor", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

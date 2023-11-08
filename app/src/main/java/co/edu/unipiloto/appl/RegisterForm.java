@@ -30,9 +30,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
 
     RequestQueue requestQueue;
 
-    static String ip_server = "192.168.80.23";
-
-    private static final String URL1 = "http://" +ip_server+ "/app_db/save.php";
+    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/save.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +89,6 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Contraseña no válida. No puede contener espacios", Toast.LENGTH_SHORT).show();
             } else {
                 createUser(name, user, password, user_type);
-                startActivity(new Intent(getApplicationContext(), GenerateReservationForm.class));
             }
         }
     }
@@ -102,7 +99,12 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(RegisterForm.this, "User created correctly", Toast.LENGTH_SHORT).show();
+                        if (response.equals("El usuario ya existe")) {
+                            Toast.makeText(RegisterForm.this, "El usuario " +user +" ya se encuentra registrado, pruebe con otro usuario", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegisterForm.this, "Usuario creado correctamente", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
                     }
                 },
                 new Response.ErrorListener() {
