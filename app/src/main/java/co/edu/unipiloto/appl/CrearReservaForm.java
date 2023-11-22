@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +30,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class CrearReservaForm extends AppCompatActivity implements View.OnClickListener  {
 
     Spinner sLab;
@@ -36,9 +42,11 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
     Calendar calendar;
     Button btnGene;
 
-    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/generate_reservation.php";
+    private static final String URL1 = "http://" + MainActivityUsuario.ip_server +"/app_db/generate_reservation.php";
+    private static final String URL = "http://" + MainActivityUsuario.ip_server +"/app_db/";
 
     RequestQueue requestQueue;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,14 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        apiService = retrofit.create(ApiService.class);
 
         btnGene.setOnClickListener(this);
     }
@@ -143,7 +159,7 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
                         Date selectedTime = timeFormat.parse(date_reserva.split(" ")[1]);
 
                         if (dayOfWeek != Calendar.SUNDAY && selectedTime.after(minTime) && selectedTime.before(maxTime)) {
-                            crearReserva(nombreLaboratorio, LoginForm.userId, date_reserva);
+                            crearReservaRest(nombreLaboratorio, LoginForm.userId, date_reserva);
                         } else {
                             Toast.makeText(CrearReservaForm.this, "La hora no es válida o es domingo", Toast.LENGTH_SHORT).show();
                         }
@@ -191,6 +207,49 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void crearReservaRest(String name_lab, int id_usuario, String date_reserva) {
+        Call<JsonObject> call = apiService.crearReserva(name_lab, id_usuario, date_reserva);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    JsonObject jsonObject = response.body();
+                    if (jsonObject != null) {
+                        if (jsonObject.has("message")) {
+                            String message = jsonObject.get("message").getAsString();
+                            if ("Ya existe la reserva".equals(message)) {
+                                Toast.makeText(CrearReservaForm.this, "Ya existe una reserva para este laboratorio en la misma fecha.", Toast.LENGTH_SHORT).show();
+                            } else if ("La reserva se creó exitosamente.".equals(message)) {
+                                Toast.makeText(CrearReservaForm.this, "Reserva creada correctamente", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Manejar otros casos según sea necesario
+                                Toast.makeText(CrearReservaForm.this, "Respuesta no reconocida: " + message, Toast.LENGTH_SHORT).show();
+                                Log.d("ReservaForm", "Respuesta no reconocida: " + message);
+                            }
+                        } else if (jsonObject.has("error")) {
+                            // Manejar el caso de error
+                            String error = jsonObject.get("error").getAsString();
+                            Log.e("ReservaForm", "Error: " + error);
+                            Toast.makeText(CrearReservaForm.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    // Manejar el caso de respuesta no exitosa
+                    Log.e("ReservaForm", "Respuesta no exitosa: " + response.code());
+                    Toast.makeText(CrearReservaForm.this, "Respuesta no exitosa: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                // Manejar el caso de error de red
+                Log.e("ReservaForm", "Error de red: " + t.getMessage(), t);
+                Toast.makeText(CrearReservaForm.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

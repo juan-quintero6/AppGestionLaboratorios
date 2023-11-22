@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="30dp"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".MainActivityUsuario">
 
     <TextView
         android:id="@+id/textTiuloMenu"

@@ -30,7 +30,7 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
 
     RequestQueue requestQueue;
 
-    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/save.php";
+    private static final String URL1 = "http://" + MainActivityUsuario.ip_server +"/app_db/save.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +102,12 @@ public class RegisterForm extends AppCompatActivity implements View.OnClickListe
                         if (response.equals("El usuario ya existe")) {
                             Toast.makeText(RegisterForm.this, "El usuario " +user +" ya se encuentra registrado, pruebe con otro usuario", Toast.LENGTH_SHORT).show();
                         } else {
+                            if(response.equals("El usuario se ha creado exitosamente como Administrador")){
+                                startActivity(new Intent(getApplicationContext(), MainActivityAdmin.class));
+                            }else {
+                                startActivity(new Intent(getApplicationContext(), MainActivityUsuario.class));
+                            }
                             Toast.makeText(RegisterForm.this, "Usuario creado correctamente", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                     }
                 },

@@ -1,7 +1,11 @@
 package co.edu.unipiloto.appl;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,9 +23,8 @@ import java.util.Map;
 
 public class ReservaCategoryActivity extends AppCompatActivity {
     private ReservaActivity reservaAdapter;
-
     RequestQueue requestQueue;
-    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/reservas.php";
+    private static final String URL1 = "http://" + MainActivityUsuario.ip_server +"/app_db/reservas.php";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,20 @@ public class ReservaCategoryActivity extends AppCompatActivity {
         ListView listaReservas = findViewById(R.id.lista_reservas);
         reservaAdapter = new ReservaActivity(this, new ArrayList<>());
         listaReservas.setAdapter(reservaAdapter);
+
+        listaReservas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Reserva selectedReserva = (Reserva) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(ReservaCategoryActivity.this, ReservaDetailActivity.class);
+
+                intent.putExtra("lab", selectedReserva.getLab());
+                intent.putExtra("date_reserva",selectedReserva.getDate());
+
+                startActivity(intent);
+            }
+        });
 
         obtenerReservas(LoginForm.userId);
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,9 +25,8 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
     EditText etUser, etPassword;
     Button btnLogin;
 
-    private static final String URL1 = "http://" +MainActivity.ip_server +"/app_db/validate.php";
+    private static final String URL1 = "http://" + MainActivityUsuario.ip_server +"/app_db/validate.php";
     static int userId;
-
     RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,8 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
             } else
                 loginUser(user, password);
             }
+            etUser.setText("");
+            etPassword.setText("");
     }
 
     private void loginUser(String user, String password) {
@@ -74,12 +76,17 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onResponse(String response) {
                         if(!response.isEmpty() && !response.equals("Credenciales incorrectas")){
-                            userId = Integer.parseInt(response);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            Toast.makeText(LoginForm.this, "User logged correctly", Toast.LENGTH_SHORT).show();
+                            if(response.equals("Administrador.")){
+                                Intent intent = new Intent(getApplicationContext(), MainActivityAdmin.class);
+                                startActivity(intent);
+                            }else {
+                                userId = Integer.parseInt(response);
+                                Intent intent = new Intent(getApplicationContext(), MainActivityUsuario.class);
+                                startActivity(intent);
+                            }
+                            Toast.makeText(LoginForm.this,"Usuario ingresó correctamente", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(LoginForm.this,"User and password incorrects", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginForm.this,"Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
