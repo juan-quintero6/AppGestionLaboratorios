@@ -19,18 +19,6 @@
         android:text="MENU" />
 
     <Button
-        android:id="@+id/btnDisponibilidad"
-        android:layout_width="305dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_rounded"
-        android:onClick="onClick"
-        android:text="Disponibilidad"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center_horizontal"
-        android:textSize="22sp"/>
-
-    <Button
         android:id="@+id/btnGenerarReserva"
         android:layout_width="305dp"
         android:layout_height="60dp"
@@ -55,8 +43,32 @@
         android:textSize="22sp"/>
 
     <Button
-        android:id="@+id/btnSalir"
+        android:id="@+id/btnDisponibilidad"
         android:layout_width="305dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:onClick="onClick"
+        android:text="Disponibilidad"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:textSize="22sp"/>
+
+    <Button
+        android:id="@+id/btnMaterial"
+        android:layout_width="305dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:onClick="onClick"
+        android:text="Material"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:textSize="22sp"/>
+
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="115dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"

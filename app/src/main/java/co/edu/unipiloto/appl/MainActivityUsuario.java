@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivityUsuario extends AppCompatActivity {
     Button GenerarReserva;
     Button Disponibilidad;
-    Button CancelarReserva;
+    Button ConsularMaterial;
     Button ConsultarReserva;
     Button Salir;
 
@@ -24,19 +24,13 @@ public class MainActivityUsuario extends AppCompatActivity {
         GenerarReserva = findViewById(R.id.btnGenerarReserva);
         Disponibilidad = findViewById(R.id.btnDisponibilidad);
         ConsultarReserva = findViewById(R.id.btnConsultarReserva);
+        ConsularMaterial = findViewById(R.id.btnMaterial);
         Salir = findViewById(R.id.btnSalir);
 
         GenerarReserva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivityUsuario.this, CrearReservaForm.class);
-                startActivity(intent);
-            }
-        });
-        Disponibilidad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivityUsuario.this, DispLabForm.class);
                 startActivity(intent);
             }
         });
@@ -47,7 +41,20 @@ public class MainActivityUsuario extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        Disponibilidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivityUsuario.this, DispLabForm.class);
+                startActivity(intent);
+            }
+        });
+        ConsularMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivityUsuario.this, ConsultarMaterialActivity.class);
+                startActivity(intent);
+            }
+        });
         Salir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

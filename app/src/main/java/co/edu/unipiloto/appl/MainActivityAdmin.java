@@ -24,7 +24,7 @@ public class MainActivityAdmin extends AppCompatActivity {
         gestionInventario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivityAdmin.this, InventarioActivity.class);
+                Intent intent = new Intent(MainActivityAdmin.this, CrearInventarioForm.class);
                 startActivity(intent);
             }
         });
