@@ -32,7 +32,7 @@ public class LoginForm extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
-        getSupportActionBar().setTitle("Login Form");
+        getSupportActionBar().setTitle("Ingreso");
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();

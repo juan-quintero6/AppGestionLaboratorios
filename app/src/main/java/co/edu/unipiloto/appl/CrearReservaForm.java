@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,7 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
     Button btnGene;
 
     private static final String URL1 = "http://" + MainActivityUsuario.ip_server +"/app_db/generate_reservation.php";
-    private static final String URL = "http://" + MainActivityUsuario.ip_server +"/app_db/";
+    private static final String URLREST = "http://" + MainActivityUsuario.ip_server +"/app_db/";
 
     RequestQueue requestQueue;
     private ApiService apiService;
@@ -52,13 +53,14 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_r_form);
+        getSupportActionBar().setTitle("Reservas");
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(URLREST)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -119,6 +121,13 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
         dateTimeTextView.setText(selectedDateAndTime);
     }
 
+    public void notificacionReserva(String date_reserva){
+        Intent intent = new Intent(this,DelayedMessageService.class);
+        intent.putExtra(DelayedMessageService.EXTRA_MESSAGE,"Reserva creada para el día: "
+                +date_reserva);
+        startService(intent);
+    }
+
     @Override
     public void onClick(View view) {
         int userId = LoginForm.userId;
@@ -159,7 +168,7 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
                         Date selectedTime = timeFormat.parse(date_reserva.split(" ")[1]);
 
                         if (dayOfWeek != Calendar.SUNDAY && selectedTime.after(minTime) && selectedTime.before(maxTime)) {
-                            crearReservaRest(nombreLaboratorio, LoginForm.userId, date_reserva);
+                            crearReserva(nombreLaboratorio, LoginForm.userId, date_reserva);
                         } else {
                             Toast.makeText(CrearReservaForm.this, "La hora no es válida o es domingo", Toast.LENGTH_SHORT).show();
                         }
@@ -185,6 +194,10 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
                         if (response.contains("Ya existe la reserva")) {
                             Toast.makeText(CrearReservaForm.this, "Ya existe una reserva para este laboratorio en la misma fecha.", Toast.LENGTH_SHORT).show();
                         } else {
+                            Intent intent = new Intent(getApplicationContext(), MainActivityUsuario.class);
+                            startActivity(intent);
+                            notificacionReserva(date_reserva);
+
                             Toast.makeText(CrearReservaForm.this, "Reserva creada correctamente", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -223,7 +236,7 @@ public class CrearReservaForm extends AppCompatActivity implements View.OnClickL
                             if ("Ya existe la reserva".equals(message)) {
                                 Toast.makeText(CrearReservaForm.this, "Ya existe una reserva para este laboratorio en la misma fecha.", Toast.LENGTH_SHORT).show();
                             } else if ("La reserva se creó exitosamente.".equals(message)) {
-                                Toast.makeText(CrearReservaForm.this, "Reserva creada correctamente", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 // Manejar otros casos según sea necesario
                                 Toast.makeText(CrearReservaForm.this, "Respuesta no reconocida: " + message, Toast.LENGTH_SHORT).show();

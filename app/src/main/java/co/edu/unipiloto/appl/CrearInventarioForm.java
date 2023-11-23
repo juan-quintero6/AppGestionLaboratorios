@@ -3,7 +3,9 @@ package co.edu.unipiloto.appl;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
@@ -34,12 +36,8 @@ public class CrearInventarioForm extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventario);
-        /* Agregar el fragment al contenedor
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new MaterialFragment())
-                    .commit();
-        }*/
+        getSupportActionBar().setTitle("Material");
+
         requestQueue = Volley.newRequestQueue(this);
         initUI();
 
@@ -62,7 +60,21 @@ public class CrearInventarioForm extends AppCompatActivity implements View.OnCli
             String material_name = materialTextView.getText().toString().trim();
             String amount = amountTextView.getText().toString().trim();
 
-            createMaterial(name_lab, material_name, amount);
+            // Realizar validaciones de datos
+            if (!TextUtils.isEmpty(material_name) && material_name.length() >= 4 && !TextUtils.isEmpty(amount)) {
+                // Validar que 'amount' no sea mayor a 20
+                int amountValue = Integer.parseInt(amount);
+                if (amountValue <= 20) {
+                    // Los datos son válidos, llamar al método para crear el material
+                    createMaterial(name_lab, material_name, amount);
+                } else {
+                    // Mostrar un mensaje de error si 'amount' es mayor a 20
+                    Toast.makeText(this, "La cantidad no puede ser mayor a 20.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Mostrar un mensaje de error si los datos están vacíos o la longitud de 'material_name' es menor a 4
+                Toast.makeText(this, "Los campos de material y cantidad son obligatorios. El nombre del material debe tener al menos 4 caracteres.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -76,6 +88,8 @@ public class CrearInventarioForm extends AppCompatActivity implements View.OnCli
                         if (response.contains("El material ya se encuentra registrado")) {
                             Toast.makeText(CrearInventarioForm.this, "Ya existe un material con este nombre.", Toast.LENGTH_SHORT).show();
                         } else {
+                            Intent intent = new Intent(getApplicationContext(), MainActivityAdmin.class);
+                            startActivity(intent);
                             Toast.makeText(CrearInventarioForm.this, "Material creado correctamente", Toast.LENGTH_SHORT).show();
                         }
                     }

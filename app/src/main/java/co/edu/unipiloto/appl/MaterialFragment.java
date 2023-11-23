@@ -109,19 +109,14 @@ public class MaterialFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
     private void procesarRespuesta(String response) {
-        // Limpiar la lista actual de materiales
         listaMateriales.clear();
 
-        // Dividir la cadena de texto por líneas
         String[] lineas = response.split("\n");
 
-        // Agregar las líneas a la lista
         for (String linea : lineas) {
-            // Agregar directamente el nombre del material a la lista
             listaMateriales.add(linea.trim());
         }
 
-        // Notificar al adaptador que los datos han cambiado
         adapter.notifyDataSetChanged();
     }
 }

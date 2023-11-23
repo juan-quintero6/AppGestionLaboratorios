@@ -9,6 +9,12 @@
     android:padding="30dp"
     tools:context=".ConsultarMaterialActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/img_upc"
+        android:padding="30dp"/>
+
     <TextView
         android:id="@+id/text_campo"
         android:layout_width="wrap_content"

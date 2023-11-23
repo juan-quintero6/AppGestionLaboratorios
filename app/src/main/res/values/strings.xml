@@ -25,4 +25,6 @@
     <string name="action_share">Share</string>
     <drawable name="ic_add_white_24dp"></drawable>
 
+    <string name="respuesta">RESERVA</string>
+
 </resources>

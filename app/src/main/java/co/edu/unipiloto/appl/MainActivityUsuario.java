@@ -14,6 +14,7 @@ public class MainActivityUsuario extends AppCompatActivity {
     Button ConsultarReserva;
     Button Salir;
 
+    //static String ip_server = "192.168.80.21";
     static String ip_server = "192.168.80.21";
 
     @Override

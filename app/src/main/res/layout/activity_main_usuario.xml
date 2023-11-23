@@ -9,19 +9,26 @@
     android:gravity="center"
     tools:context=".MainActivityUsuario">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:src="@drawable/img_upc"
+        android:padding="30dp"/>
+
     <TextView
-        android:id="@+id/textTiuloMenu"
+        android:id="@+id/textTituloMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="16dp"
         android:layout_marginTop="40dp"
-        android:text="MENU" />
+        android:text="MENU"
+        android:textSize="20sp"
+        android:textStyle="italic"/>
 
     <Button
         android:id="@+id/btnGenerarReserva"
         android:layout_width="305dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:text="Generar reserva"
@@ -33,7 +40,7 @@
     <Button
         android:id="@+id/btnConsultarReserva"
         android:layout_width="305dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:onClick="onClick"
@@ -45,7 +52,7 @@
     <Button
         android:id="@+id/btnDisponibilidad"
         android:layout_width="305dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:onClick="onClick"
@@ -57,7 +64,7 @@
     <Button
         android:id="@+id/btnMaterial"
         android:layout_width="305dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:onClick="onClick"
@@ -69,7 +76,7 @@
     <Button
         android:id="@+id/btnSalir"
         android:layout_width="115dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:onClick="onClick"

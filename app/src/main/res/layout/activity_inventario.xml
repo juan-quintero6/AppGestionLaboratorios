@@ -8,6 +8,11 @@
     android:padding="30dp"
     tools:context=".CrearInventarioForm">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/img_upc"
+        android:padding="30dp"/>
 
     <TextView
         android:id="@+id/text_campo"
@@ -17,6 +22,7 @@
         android:layout_marginRight="60dp"
         android:text="ELEGIR LABORATORIO" />
 
+
     <Spinner
         android:id="@+id/salas_laboratorio"
         android:layout_width="match_parent"
@@ -25,32 +31,40 @@
         android:entries="@array/salas_lab" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:textColorHint="@color/cardview_shadow_start_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/colorPrimaryM">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextMaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Material" />
+            android:hint="Material"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="15sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/textViewCantidad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cantidad:"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp"
-        />
 
-    <EditText
-        android:id="@+id/editTextNumber"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:textColorHint="@color/colorPrimaryM">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Cantidad"
+            android:ems="5"
+            android:textSize="15sp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button

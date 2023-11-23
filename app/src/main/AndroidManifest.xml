@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppL"
         tools:targetApi="31" >
+        <service
+            android:name=".DelayedMessageService"
+            android:exported="false"></service>
         <activity
             android:name=".ConsultarMaterialActivity"
             android:exported="false"/>

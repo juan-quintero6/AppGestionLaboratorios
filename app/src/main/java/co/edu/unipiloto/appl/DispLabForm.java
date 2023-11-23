@@ -36,6 +36,7 @@ public class DispLabForm extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disp_lab_form);
+        getSupportActionBar().setTitle("Disponibilidad");
 
         requestQueue = Volley.newRequestQueue(this);
         initUI();

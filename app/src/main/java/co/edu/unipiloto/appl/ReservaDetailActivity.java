@@ -32,6 +32,7 @@ public class ReservaDetailActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva_detail);
+        getSupportActionBar().setTitle("Reservas");
         // Recupera los datos de la reserva seleccionada
         Intent intent = getIntent();
         initUI();

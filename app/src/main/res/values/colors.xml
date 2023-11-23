@@ -3,7 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Tonalidades de naranja de Material Design -->
     <color name="colorPrimary">#6120ed</color>
     <color name="colorPrimaryDark">#391090</color>
     <color name="colorAccent">#06b2b8</color>

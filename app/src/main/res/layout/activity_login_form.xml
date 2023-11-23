@@ -73,5 +73,4 @@
         android:onClick="btn_signup"
         />
 
-
 </LinearLayout>

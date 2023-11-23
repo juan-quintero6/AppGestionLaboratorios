@@ -29,6 +29,8 @@ public class ReservaCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva_category);
+        getSupportActionBar().setTitle("Reservas");
+
         requestQueue = Volley.newRequestQueue(this);
 
         ListView listaReservas = findViewById(R.id.lista_reservas);
